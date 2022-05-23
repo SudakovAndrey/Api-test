@@ -29,4 +29,7 @@ public class AssertableResponse {
     public Headers headers() {
         return response.getHeaders();
     }
+
+    public int extractId() { return response.path("id");
+    }
 }

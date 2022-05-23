@@ -6,8 +6,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(fluent = true)
-public class UserLoginResponse{
-
-	@JsonProperty("id")
-	private int id;
+public class OrderTract {
+	@JsonProperty("track")
+	private int track;
 }

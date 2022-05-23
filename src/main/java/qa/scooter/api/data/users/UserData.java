@@ -1,11 +1,14 @@
-package qa.scooter.api.credentials;
+package qa.scooter.api.data.users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+@Builder
 @Data
 @Accessors(fluent = true)
-public class CourierCredentials{
+public class UserData{
 
 	@JsonProperty("firstName")
 	private String firstName;
@@ -15,4 +18,5 @@ public class CourierCredentials{
 
 	@JsonProperty("login")
 	private String login;
+
 }
