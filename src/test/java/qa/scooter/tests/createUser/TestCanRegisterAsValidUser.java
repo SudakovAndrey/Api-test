@@ -1,19 +1,17 @@
 package qa.scooter.tests.createUser;
 
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import org.aeonbits.owner.ConfigFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import qa.scooter.api.ProjectConfig;
 import qa.scooter.api.data.users.NewUser;
 import qa.scooter.api.data.users.UserData;
 import qa.scooter.api.data.users.UserLogin;
 import qa.scooter.api.repsonses.CourierId;
 import qa.scooter.api.services.UserApiService;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static qa.scooter.api.conditions.Conditions.bodyField;
 import static qa.scooter.api.conditions.Conditions.statusCode;
 
@@ -26,8 +24,6 @@ public class TestCanRegisterAsValidUser {
     public void setUp() {
         userApiService = new UserApiService();
         login = new UserLogin();
-        ProjectConfig config = ConfigFactory.create(ProjectConfig.class, System.getProperties());
-        RestAssured.baseURI = config.baseUrl();
     }
 
     @After

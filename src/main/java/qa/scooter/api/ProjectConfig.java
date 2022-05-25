@@ -6,4 +6,5 @@ public interface ProjectConfig extends Config {
     String baseUrl();
     @DefaultValue("true")
     boolean logging();
+    String apiVersion();
 }
