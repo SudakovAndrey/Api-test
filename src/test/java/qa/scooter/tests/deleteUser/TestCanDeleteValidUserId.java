@@ -1,11 +1,8 @@
 package qa.scooter.tests.deleteUser;
 
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import org.aeonbits.owner.ConfigFactory;
 import org.junit.Before;
 import org.junit.Test;
-import qa.scooter.api.ProjectConfig;
 import qa.scooter.api.data.users.NewUser;
 import qa.scooter.api.data.users.UserData;
 import qa.scooter.api.data.users.UserLogin;
@@ -26,8 +23,6 @@ public class TestCanDeleteValidUserId {
     public void setUp() {
         userApiService = new UserApiService();
         login = new UserLogin();
-        ProjectConfig config = ConfigFactory.create(ProjectConfig.class, System.getProperties());
-        RestAssured.baseURI = config.baseUrl();
     }
 
     @Test

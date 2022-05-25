@@ -1,21 +1,18 @@
 package qa.scooter.tests.acceptOrder;
 
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import org.aeonbits.owner.ConfigFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import qa.scooter.api.ProjectConfig;
 import qa.scooter.api.data.orders.NewOrder;
 import qa.scooter.api.data.users.NewUser;
 import qa.scooter.api.data.users.UserData;
 import qa.scooter.api.data.users.UserLogin;
 import qa.scooter.api.repsonses.CourierId;
 import qa.scooter.api.repsonses.Order;
-import qa.scooter.api.repsonses.OrderTract;
+import qa.scooter.api.repsonses.OrderTrack;
 import qa.scooter.api.services.OrdersApiService;
 import qa.scooter.api.services.UserApiService;
 
@@ -43,7 +40,7 @@ public class TestCanAcceptValidOrder {
     private final List<String> color;
     private OrdersApiService ordersApiService;
     private CourierId courierId;
-    private OrderTract orderTract;
+    private OrderTrack orderTrack;
     private UserApiService userApiService;
     private UserData userData;
     private NewOrder newOrder;
@@ -58,20 +55,18 @@ public class TestCanAcceptValidOrder {
     public void setUp() {
         newOrder = new NewOrder();
         courierId = new CourierId();
-        orderTract = new OrderTract();
+        orderTrack = new OrderTrack();
         userApiService = new UserApiService();
         ordersApiService = new OrdersApiService();
         login = new UserLogin();
         order = new Order();
-        ProjectConfig config = ConfigFactory.create(ProjectConfig.class, System.getProperties());
-        RestAssured.baseURI = config.baseUrl();
     }
 
     @After
     public void tearDown() {
         // cancel order
         ordersApiService
-                .cancelOrder(orderTract)
+                .cancelOrder(orderTrack)
                 .shouldHave(statusCode(200))
                 .shouldHave(bodyField("ok", is(true)));
         // remove courier
@@ -102,14 +97,14 @@ public class TestCanAcceptValidOrder {
                 .shouldHave(bodyField("id", notNullValue()))
                 .asPojo(CourierId.class);
         // set trackId
-        orderTract = ordersApiService
+        orderTrack = ordersApiService
                 .createOrder(newOrder.getRandomOrderWithColor(color))
                 .shouldHave(statusCode(201))
                 .shouldHave(bodyField("track", notNullValue()))
-                .asPojo(OrderTract.class);
+                .asPojo(OrderTrack.class);
         // set order
         order = ordersApiService
-                .getOrder(orderTract)
+                .getOrder(orderTrack)
                 .shouldHave(statusCode(200))
                 .shouldHave(bodyField("order.id", notNullValue()))
                 .asPojo(Order.class);

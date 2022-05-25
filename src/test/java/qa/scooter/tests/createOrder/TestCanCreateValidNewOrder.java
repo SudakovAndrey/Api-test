@@ -1,14 +1,11 @@
 package qa.scooter.tests.createOrder;
 
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import org.aeonbits.owner.ConfigFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import qa.scooter.api.ProjectConfig;
 import qa.scooter.api.data.orders.NewOrder;
 import qa.scooter.api.services.OrdersApiService;
 
@@ -43,8 +40,6 @@ public class TestCanCreateValidNewOrder {
     public void setUp() {
         ordersApiService = new OrdersApiService();
         newOrder = new NewOrder();
-        ProjectConfig config = ConfigFactory.create(ProjectConfig.class, System.getProperties());
-        RestAssured.baseURI = config.baseUrl();
     }
 
     @Test

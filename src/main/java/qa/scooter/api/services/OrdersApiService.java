@@ -5,13 +5,14 @@ import qa.scooter.api.assertions.AssertableResponse;
 import qa.scooter.api.data.orders.OrderData;
 import qa.scooter.api.repsonses.CourierId;
 import qa.scooter.api.repsonses.Order;
-import qa.scooter.api.repsonses.OrderTract;
+import qa.scooter.api.repsonses.OrderTrack;
 
 public class OrdersApiService extends ApiService {
     @Step
-    public AssertableResponse ordersCount(CourierId user) {
+    public AssertableResponse ordersCount(CourierId courierId) {
         return new AssertableResponse(setUp()
-                .get("/api/v1/courier/" + (user.id() == 0 ? "" : user.id()) + "/ordersCount"));
+                .pathParam("userId", (courierId.id() == 0 ? "" : courierId.id()))
+                .get(ORDERCOUNT));
     }
 
     @Step
@@ -19,26 +20,29 @@ public class OrdersApiService extends ApiService {
         return new AssertableResponse(setUp()
                 .body(orderData)
                 .when()
-                .post("/api/v1/orders"));
+                .post(CREATEORDER));
     }
 
     @Step
     public AssertableResponse acceptOrder(CourierId courierId, Order order) {
         return new AssertableResponse(setUp()
-                .put("/api/v1/orders/accept/" + order.order().id() + "?courierId=" + courierId.id()));
+                .pathParam("orderId", (order.order().id() == 0 ? "" : order.order().id()))
+                .queryParam("courierId", (courierId.id() == 0 ? "" : courierId.id()))
+                .put(ACCEPTORDER));
     }
 
     @Step
-    public AssertableResponse cancelOrder(OrderTract orderTract) {
+    public AssertableResponse cancelOrder(OrderTrack orderTrack) {
         return new AssertableResponse(setUp()
-                .body(orderTract)
+                .body(orderTrack)
                 .when()
-                .put("/api/v1/orders/cancel"));
+                .put(CANCEL));
     }
 
     @Step
-    public AssertableResponse getOrder(OrderTract orderTract) {
+    public AssertableResponse getOrder(OrderTrack orderTrack) {
         return new AssertableResponse(setUp()
-                .get("/api/v1/orders/track?t=" + orderTract.track()));
+                .queryParam("t", (orderTrack.track() == 0 ? "" : orderTrack.track()))
+                .get(GETORDER));
     }
 }

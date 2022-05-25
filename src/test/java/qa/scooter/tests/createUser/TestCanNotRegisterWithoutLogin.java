@@ -1,11 +1,8 @@
 package qa.scooter.tests.createUser;
 
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import org.aeonbits.owner.ConfigFactory;
 import org.junit.Before;
 import org.junit.Test;
-import qa.scooter.api.ProjectConfig;
 import qa.scooter.api.data.users.NewUser;
 import qa.scooter.api.data.users.UserData;
 import qa.scooter.api.services.UserApiService;
@@ -20,8 +17,6 @@ public class TestCanNotRegisterWithoutLogin {
     @Before
     public void setUp() {
         userApiService = new UserApiService();
-        ProjectConfig config = ConfigFactory.create(ProjectConfig.class, System.getProperties());
-        RestAssured.baseURI = config.baseUrl();
     }
 
     @Test

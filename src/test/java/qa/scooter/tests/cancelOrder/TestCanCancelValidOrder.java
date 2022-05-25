@@ -1,16 +1,13 @@
 package qa.scooter.tests.cancelOrder;
 
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import org.aeonbits.owner.ConfigFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import qa.scooter.api.ProjectConfig;
 import qa.scooter.api.data.orders.NewOrder;
 import qa.scooter.api.repsonses.Order;
-import qa.scooter.api.repsonses.OrderTract;
+import qa.scooter.api.repsonses.OrderTrack;
 import qa.scooter.api.services.OrdersApiService;
 
 import java.util.Arrays;
@@ -33,43 +30,43 @@ public class TestCanCancelValidOrder {
                 {"BLACK GREY"}
         });
     }
+
     private final List<String> color;
     private OrdersApiService ordersApiService;
     private NewOrder newOrder;
-    private OrderTract orderTract;
+    private OrderTrack orderTrack;
     private Order order;
 
     public TestCanCancelValidOrder(String color) {
         this.color = Arrays.asList(color.split(" "));
     }
+
     @Before
     public void setUp() {
         newOrder = new NewOrder();
-        orderTract = new OrderTract();
+        orderTrack = new OrderTrack();
         ordersApiService = new OrdersApiService();
         order = new Order();
-        ProjectConfig config = ConfigFactory.create(ProjectConfig.class, System.getProperties());
-        RestAssured.baseURI = config.baseUrl();
     }
 
     @Test
     @DisplayName("Can cancel valid order")
     public void testCanCancelValidOrder() {
         // given
-        orderTract = ordersApiService
+        orderTrack = ordersApiService
                 .createOrder(newOrder.getRandomOrderWithColor(color))
                 .shouldHave(statusCode(201))
                 .shouldHave(bodyField("track", notNullValue()))
-                .asPojo(OrderTract.class);
+                .asPojo(OrderTrack.class);
         // set order
         order = ordersApiService
-                .getOrder(orderTract)
+                .getOrder(orderTrack)
                 .shouldHave(statusCode(200))
                 .shouldHave(bodyField("order.id", notNullValue()))
                 .asPojo(Order.class);
         // expect
         ordersApiService
-                .cancelOrder(orderTract)
+                .cancelOrder(orderTrack)
                 .shouldHave(statusCode(200))
                 .shouldHave(bodyField("ok", is(true)));
     }
