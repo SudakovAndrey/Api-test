@@ -1,24 +1,15 @@
-pipeline {
-    agent any
-    tools {
-        maven 'Maven 3.3.9'
-        jdk 'jdk8'
+node {
+    stage ("checkout repo") {
+        git branch: 'master',
+        credentialsId: '6bc223c3-6152-40ee-8574-702551dd8b4d',
+        url: 'https://github.com/SudakovAndrey/Api-test.git'
     }
-        stage ('Initialize') {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
+
+    stage ("build") {
+        sh 'mvn -B -DskipTests clean package'
+    }
+
+    stage ("run api tests") {
+            sh 'mvn test'
         }
-        stage ('checkout repo') {
-                git branch: 'master',
-                credentialsId: '6bc223c3-6152-40ee-8574-702551dd8b4d',
-                url: 'https://github.com/SudakovAndrey/Api-test.git'
-            }
-        stage ('Build') {
-              sh 'mvn -Dmaven.test.failure.ignore=true install'
-        }
-        stage ('run api tests') {
-                sh 'mvn test'
-            }
 }
