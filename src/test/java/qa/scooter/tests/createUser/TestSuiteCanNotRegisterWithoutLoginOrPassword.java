@@ -1,5 +1,6 @@
 package qa.scooter.tests.createUser;
 
+import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ import static org.hamcrest.Matchers.containsString;
 import static qa.scooter.api.conditions.Conditions.bodyField;
 import static qa.scooter.api.conditions.Conditions.statusCode;
 
-public class TestCanNotRegisterWithoutPassword {
+public class TestCanNotRegisterWithoutLogin {
     private UserApiService userApiService;
 
     @Before
@@ -19,11 +20,12 @@ public class TestCanNotRegisterWithoutPassword {
         userApiService = new UserApiService();
     }
 
+    @Feature("create user")
     @Test
-    @DisplayName("Can't register without password")
-    public void testCanNotRegisterWithoutPassword() {
+    @DisplayName("Can't register without login")
+    public void testCanNotRegisterWithoutLogin() {
         // given
-        UserData userData = NewUser.getUserWithoutPassword();
+        UserData userData = NewUser.getUserWithoutLogin();
 
         // expect
         userApiService

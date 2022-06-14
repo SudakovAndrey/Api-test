@@ -1,5 +1,6 @@
-package qa.scooter.tests.loginUser;
+package qa.scooter.tests.createUser;
 
+import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
@@ -10,15 +11,15 @@ import qa.scooter.api.data.users.UserLogin;
 import qa.scooter.api.repsonses.CourierId;
 import qa.scooter.api.services.UserApiService;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static qa.scooter.api.conditions.Conditions.bodyField;
 import static qa.scooter.api.conditions.Conditions.statusCode;
 
-public class TestNotLoginWithIncorrectPassword {
+public class TestCanRegisterAsValidUser {
     private UserApiService userApiService;
     private UserData userData;
     private UserLogin login;
-
 
     @Before
     public void setUp() {
@@ -45,27 +46,16 @@ public class TestNotLoginWithIncorrectPassword {
                 .shouldHave(bodyField("ok", is(true)));
     }
 
+    @Feature("create user")
     @Test
-    @DisplayName("Not login with incorrect password")
-    public void testNotLoginWithIncorrectPassword() {
+    @DisplayName("Can register as valid user")
+    public void testCanRegisterAsValidUser() {
         // given
         userData = NewUser.getRandomUser();
-
+        // expect
         userApiService
                 .registerUser(userData)
                 .shouldHave(statusCode(201))
                 .shouldHave(bodyField("ok", is(true)));
-
-        // set login
-        login
-                .login(userData.login())
-                .password("IncorrectPassword");
-
-        // expect
-        userApiService
-                .loginUser(login)
-                .shouldHave(statusCode(404))
-                .shouldHave(bodyField("message", containsString("Учетная запись не найдена")));
-
     }
 }
