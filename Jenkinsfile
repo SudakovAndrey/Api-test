@@ -6,10 +6,10 @@ node {
     }
 
     stage ("build") {
-        sh "./gradlew clean Api-test:assemble"
+        sh "mvn compile"
     }
 
     stage ("run api tests") {
-            sh "./gradlew Api-test:test"
+            sh "mvn test"
         }
 }
