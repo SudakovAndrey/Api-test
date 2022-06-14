@@ -3,6 +3,7 @@ pipeline {
     tools {
             maven 'Maven 3.8.6'
             jdk 'Java 17'
+            allure 'Allure'
     }
     stages {
         stage ('checkout repo') {
@@ -21,7 +22,7 @@ pipeline {
 
         stage ('run api tests') {
             steps {
-                sh 'mvn test'
+                sh 'mvn test -Dtest=TestSuiteRegisterUserSuccessfully'
             }
         }
     }
