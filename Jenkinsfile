@@ -1,4 +1,11 @@
-node {
+pipeline {
+    agent {
+        label linux-small
+    }
+    tools {
+            maven 'Maven 3.8.6'
+            jdk 'Java 17'
+        }
     stage ('checkout repo') {
             git branch: 'master',
             credentialsId: '6bc223c3-6152-40ee-8574-702551dd8b4d',
@@ -6,11 +13,11 @@ node {
     }
 
     stage ('build') {
-        sh 'maven -B -DskipTests clean package'
+        sh 'mvn -B -DskipTests clean package'
     }
 
     stage ('run api tests') {
-        sh 'maven test'
+        sh 'mvn test'
    }
 allure ([
         includeProperties: false,
