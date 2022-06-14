@@ -6,11 +6,15 @@ node {
     }
 
     stage ('build') {
+     withMaven(maven: 'mvn') {
         sh 'mvn -B -DskipTests clean package'
+    }
     }
 
     stage ('run api tests') {
+    withMaven(maven: 'mvn') {
         sh 'mvn test'
+   }
    }
 allure ([
         includeProperties: false,
