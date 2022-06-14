@@ -4,7 +4,6 @@ pipeline {
         maven 'Maven 3.3.9'
         jdk 'jdk8'
     }
-    stages {
         stage ('Initialize') {
             steps {
                 sh '''
@@ -24,5 +23,4 @@ pipeline {
         stage ('run api tests') {
                 sh 'mvn test'
             }
-    }
 }
