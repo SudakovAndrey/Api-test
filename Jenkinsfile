@@ -26,7 +26,6 @@ stages {
             sh 'mvn test'
         }
     }
-
-    allure includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [path: 'Api-test/allure-results']
 }
+allure includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [path: 'Api-test/allure-results']
 }
