@@ -1,7 +1,3 @@
-tools {
-    maven 'MAVEN_HOME'
-    jdk 'JAVA_HOME'
-    }
 node {
     stage ("checkout repo") {
         git branch: 'master',
