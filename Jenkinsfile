@@ -28,8 +28,7 @@ pipeline {
     }
     post {
         always {
-            stage('report') {
-                steps {
+           node {
             script {
                 allure ([
                     includeProperties: false,
@@ -38,7 +37,6 @@ pipeline {
                     reportBuildPolicy: 'ALWAYS',
                     results: [path: 'Api-test/allure-results']
                 ])
-            }
             }
             }
         }
