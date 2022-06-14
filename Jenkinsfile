@@ -27,5 +27,13 @@ stages {
         }
     }
 }
-allure includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [path: 'Api-test/allure-results']
+node {
+allure ([
+        includeProperties: false,
+        jdk: '',
+        properties: [],
+        reportBuildPolicy: 'ALWAYS',
+        results: [path: 'Api-test/allure-results']
+        ])
+}
 }
