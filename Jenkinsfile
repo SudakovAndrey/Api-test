@@ -24,9 +24,8 @@ pipeline {
                 sh 'mvn test'
             }
         }
-
-        stage ('report') {
-            steps {
+        post {
+             always {
                 script {
                     allure ([
                         includeProperties: false,
