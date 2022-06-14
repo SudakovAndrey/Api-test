@@ -6,7 +6,7 @@ node {
     }
 
     stage ("build") {
-        sh "mvn compile"
+        sh "mvn -B -DskipTests clean package"
     }
 
     stage ("run api tests") {
