@@ -1,5 +1,4 @@
 node {
-    tool name: 'Maven', type: 'maven'
     stage ('checkout repo') {
             git branch: 'master',
             credentialsId: '6bc223c3-6152-40ee-8574-702551dd8b4d',
@@ -7,7 +6,6 @@ node {
     }
 
     stage ('build') {
-    def mvn = 'Maven'
         sh 'mvn -B -DskipTests clean package'
     }
 
