@@ -28,7 +28,7 @@ stages {
    }
 
 }
-stage ('report') {
+
 allure ([
         includeProperties: false,
         jdk: '',
@@ -36,5 +36,5 @@ allure ([
         reportBuildPolicy: 'ALWAYS',
         results: [path: 'Api-test/allure-results']
         ])
-}
+
 }
