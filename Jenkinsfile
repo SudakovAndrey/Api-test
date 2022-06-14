@@ -23,10 +23,18 @@ stages {
 
     stage ('run api tests') {
         steps {
-            withAllureUpload(serverId: 'localhost', projectId: 'Api-test', results: [[path: 'Api-test/allure-results']]) {
                 sh 'mvn test'
-            }
         }
-    }
+   }
+
+}
+stage ('report') {
+allure ([
+        includeProperties: false,
+        jdk: '',
+        properties: [],
+        reportBuildPolicy: 'ALWAYS',
+        results: [path: 'Api-test/allure-results']
+        ])
 }
 }
