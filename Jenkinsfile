@@ -6,11 +6,11 @@ node {
     }
 
     stage ('build') {
-        sh 'mvn -B -DskipTests clean package'
+        sh 'maven -B -DskipTests clean package'
     }
 
     stage ('run api tests') {
-        sh 'mvn test'
+        sh 'maven test'
    }
 allure ([
         includeProperties: false,
