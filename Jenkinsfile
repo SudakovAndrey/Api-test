@@ -4,7 +4,6 @@ tools
    {
     maven 'Maven 3.8.6'
     jdk 'Java17'
-    allure 'Allure 2.18.1'
    }
 stages {
     stage ('checkout repo') {
@@ -28,7 +27,7 @@ stages {
    }
 
 }
-
+}
 allure ([
         includeProperties: false,
         jdk: '',
@@ -36,5 +35,3 @@ allure ([
         reportBuildPolicy: 'ALWAYS',
         results: [path: 'Api-test/allure-results']
         ])
-
-}
