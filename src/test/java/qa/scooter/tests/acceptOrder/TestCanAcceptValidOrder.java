@@ -45,7 +45,7 @@ public class TestCanAcceptValidOrder {
     private UserData userData;
     private NewOrder newOrder;
     private UserLogin login;
-    private Order order;
+    private Order orderId;
 
     public TestCanAcceptValidOrder(String color) {
         this.color = Arrays.asList(color.split(" "));
@@ -59,7 +59,24 @@ public class TestCanAcceptValidOrder {
         userApiService = new UserApiService();
         ordersApiService = new OrdersApiService();
         login = new UserLogin();
-        order = new Order();
+        orderId = new Order();
+        // create courier
+        userData = NewUser.getRandomUser();
+        // register courier
+        userApiService
+                .registerUser(userData)
+                .shouldHave(statusCode(201))
+                .shouldHave(bodyField("ok", is(true)));
+        // set login
+        login
+                .login(userData.login())
+                .password(userData.password());
+        // set courierId
+        courierId = userApiService
+                .loginUser(login)
+                .shouldHave(statusCode(200))
+                .shouldHave(bodyField("id", notNullValue()))
+                .asPojo(CourierId.class);
     }
 
     @After
@@ -80,37 +97,21 @@ public class TestCanAcceptValidOrder {
     @DisplayName("Can accept valid order")
     public void testCanAcceptValidOrder() {
         // given
-        userData = NewUser.getRandomUser();
-        // register courier
-        userApiService
-                .registerUser(userData)
-                .shouldHave(statusCode(201))
-                .shouldHave(bodyField("ok", is(true)));
-        // set login
-        login
-                .login(userData.login())
-                .password(userData.password());
-        // set courierId
-        courierId = userApiService
-                .loginUser(login)
-                .shouldHave(statusCode(200))
-                .shouldHave(bodyField("id", notNullValue()))
-                .asPojo(CourierId.class);
-        // set trackId
+        // set create order
         orderTrack = ordersApiService
                 .createOrder(newOrder.getRandomOrderWithColor(color))
                 .shouldHave(statusCode(201))
                 .shouldHave(bodyField("track", notNullValue()))
                 .asPojo(OrderTrack.class);
-        // set order
-        order = ordersApiService
+        // set orderId
+        orderId = ordersApiService
                 .getOrder(orderTrack)
                 .shouldHave(statusCode(200))
                 .shouldHave(bodyField("order.id", notNullValue()))
                 .asPojo(Order.class);
         // expect
         ordersApiService
-                .acceptOrder(courierId, order)
+                .acceptOrder(courierId, orderId)
                 .shouldHave(statusCode(200))
                 .shouldHave(bodyField("ok", is(true)));
     }

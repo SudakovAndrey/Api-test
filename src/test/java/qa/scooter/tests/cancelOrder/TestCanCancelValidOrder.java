@@ -35,7 +35,7 @@ public class TestCanCancelValidOrder {
     private OrdersApiService ordersApiService;
     private NewOrder newOrder;
     private OrderTrack orderTrack;
-    private Order order;
+    private Order orderId;
 
     public TestCanCancelValidOrder(String color) {
         this.color = Arrays.asList(color.split(" "));
@@ -46,7 +46,7 @@ public class TestCanCancelValidOrder {
         newOrder = new NewOrder();
         orderTrack = new OrderTrack();
         ordersApiService = new OrdersApiService();
-        order = new Order();
+        orderId = new Order();
     }
 
     @Test
@@ -58,8 +58,8 @@ public class TestCanCancelValidOrder {
                 .shouldHave(statusCode(201))
                 .shouldHave(bodyField("track", notNullValue()))
                 .asPojo(OrderTrack.class);
-        // set order
-        order = ordersApiService
+        // set orderId
+        orderId = ordersApiService
                 .getOrder(orderTrack)
                 .shouldHave(statusCode(200))
                 .shouldHave(bodyField("order.id", notNullValue()))

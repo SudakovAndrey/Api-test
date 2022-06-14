@@ -28,6 +28,7 @@ public class TestCanCreateValidNewOrder {
                 {"BLACK GREY"}
         });
     }
+
     private final List<String> color;
     private OrdersApiService ordersApiService;
     private NewOrder newOrder;

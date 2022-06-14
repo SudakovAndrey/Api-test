@@ -2,6 +2,7 @@ package qa.scooter.api.conditions;
 
 import lombok.experimental.UtilityClass;
 import org.hamcrest.Matcher;
+
 @UtilityClass
 public class Conditions {
     public StatusCodeCondition statusCode(int code) {

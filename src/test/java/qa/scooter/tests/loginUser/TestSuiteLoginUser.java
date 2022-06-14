@@ -56,6 +56,7 @@ public class TestSuiteLoginUser {
     }
 
     @Test
+    @Severity(SeverityLevel.CRITICAL)
     @DisplayName("Can login as valid user")
     public void testCanLoginAsValidUser() {
         // given

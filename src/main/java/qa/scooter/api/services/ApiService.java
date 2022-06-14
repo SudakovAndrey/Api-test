@@ -33,7 +33,7 @@ public class ApiService {
     }
 
     private List<Filter> getFilters() {
-        ProjectConfig config = ConfigFactory.create(ProjectConfig.class);
+        ProjectConfig config = ConfigFactory.create(ProjectConfig.class, System.getProperties());
         if (config.logging()) {
             return Arrays.asList(new RequestLoggingFilter(), new ResponseLoggingFilter(), new AllureRestAssured());
         }

@@ -7,7 +7,6 @@ import qa.scooter.api.data.users.UserLogin;
 import qa.scooter.api.repsonses.CourierId;
 
 public class UserApiService extends ApiService {
-
     @Step
     public AssertableResponse registerUser(UserData userData) {
         return new AssertableResponse(setUp()

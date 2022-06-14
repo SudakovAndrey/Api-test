@@ -11,12 +11,11 @@ import qa.scooter.api.data.users.UserLogin;
 import qa.scooter.api.repsonses.CourierId;
 import qa.scooter.api.services.UserApiService;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static qa.scooter.api.conditions.Conditions.bodyField;
 import static qa.scooter.api.conditions.Conditions.statusCode;
 
-public class TestCanRegisterAsValidUser {
+public class TestSuiteRegisterUserSuccessfully {
     private UserApiService userApiService;
     private UserData userData;
     private UserLogin login;
@@ -58,4 +57,92 @@ public class TestCanRegisterAsValidUser {
                 .shouldHave(statusCode(201))
                 .shouldHave(bodyField("ok", is(true)));
     }
+
+    @Feature("create user")
+    @Test
+    @DisplayName("Can register with correct status code")
+    public void testCanRegisterWithCorrectStatusCode() {
+        // given
+        userData = NewUser.getRandomUser();
+
+        // expect
+        userApiService
+                .registerUser(userData)
+                .shouldHave(statusCode(201));
+    }
+
+    @Feature("create user")
+    @Test
+    @DisplayName("Can register with correct body field")
+    public void testCanRegisterWithCorrectBodyField() {
+        // given
+        userData = NewUser.getRandomUser();
+
+        // expect
+        userApiService
+                .registerUser(userData)
+                .shouldHave(bodyField("ok", is(true)));
+    }
+
+    @Feature("create user")
+    @Test
+    @DisplayName("Can register without firstname")
+    public void testCanRegisterWithoutFirstname() {
+        // given
+        userData = NewUser.getUserWithoutFirstName();
+
+        // expect
+        userApiService
+                .registerUser(userData)
+                .shouldHave(statusCode(201))
+                .shouldHave(bodyField("ok", is(true)));
+    }
+
+    @Feature("create user")
+    @Test
+    @DisplayName("Can't register user twice")
+    public void testCanNotRegisterUserTwice() {
+        // given
+        userData = NewUser.getRandomUser();
+
+        // expect
+        userApiService
+                .registerUser(userData)
+                .shouldHave(statusCode(201))
+                .shouldHave(bodyField("ok", is(true)));
+
+        userApiService
+                .registerUser(userData)
+                .shouldHave(statusCode(409))
+                .shouldHave(bodyField("message", containsString("Этот логин уже используется. Попробуйте другой.")));
+    }
+
+    @Feature("create user")
+    @Test
+    @DisplayName("Can't register without login")
+    public void testCanNotRegisterWithoutLogin() {
+        // given
+        UserData userData = NewUser.getUserWithoutLogin();
+
+        // expect
+        userApiService
+                .registerUser(userData)
+                .shouldHave(statusCode(400))
+                .shouldHave(bodyField("message", containsString("Недостаточно данных для создания учетной записи")));
+    }
+
+    @Feature("create user")
+    @Test
+    @DisplayName("Can't register without password")
+    public void testCanNotRegisterWithoutPassword() {
+        // given
+        UserData userData = NewUser.getUserWithoutPassword();
+
+        // expect
+        userApiService
+                .registerUser(userData)
+                .shouldHave(statusCode(400))
+                .shouldHave(bodyField("message", containsString("Недостаточно данных для создания учетной записи")));
+    }
+
 }
