@@ -21,7 +21,7 @@ pipeline {
 
         stage ('run api tests') {
             steps {
-                sh 'mvn test -Dtest=TestSuiteRegisterUserSuccessfully'
+                sh 'mvn test'
             }
         }
     }
