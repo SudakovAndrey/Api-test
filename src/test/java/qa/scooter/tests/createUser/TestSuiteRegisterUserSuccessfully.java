@@ -116,33 +116,4 @@ public class TestSuiteRegisterUserSuccessfully {
                 .shouldHave(statusCode(409))
                 .shouldHave(bodyField("message", containsString("Этот логин уже используется. Попробуйте другой.")));
     }
-
-    @Feature("create user")
-    @Test
-    @DisplayName("Can't register without login")
-    public void testCanNotRegisterWithoutLogin() {
-        // given
-        UserData userData = NewUser.getUserWithoutLogin();
-
-        // expect
-        userApiService
-                .registerUser(userData)
-                .shouldHave(statusCode(400))
-                .shouldHave(bodyField("message", containsString("Недостаточно данных для создания учетной записи")));
-    }
-
-    @Feature("create user")
-    @Test
-    @DisplayName("Can't register without password")
-    public void testCanNotRegisterWithoutPassword() {
-        // given
-        UserData userData = NewUser.getUserWithoutPassword();
-
-        // expect
-        userApiService
-                .registerUser(userData)
-                .shouldHave(statusCode(400))
-                .shouldHave(bodyField("message", containsString("Недостаточно данных для создания учетной записи")));
-    }
-
 }
