@@ -24,19 +24,19 @@ pipeline {
             steps {
                 sh 'mvn test -Dtest=TestSuiteRegisterUserSuccessfully'
             }
-        }
-    }
-    post {
-        always {
-
-                allure ([
-                    includeProperties: false,
-                    jdk: '',
-                    properties: [],
-                    reportBuildPolicy: 'ALWAYS',
-                    results: [path: 'Api-test/allure-results']
-                ])
-
+            post {
+                always {
+                    script {
+                        allure ([
+                            includeProperties: false,
+                            jdk: '',
+                            properties: [],
+                            reportBuildPolicy: 'ALWAYS',
+                            results: [path: 'Api-test/allure-results']
+                        ])
+                    }
+                }
+            }
         }
     }
 }
