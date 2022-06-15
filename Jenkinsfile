@@ -3,7 +3,7 @@ pipeline {
     tools {
             maven 'Maven 3.8.6'
             jdk 'Java 17'
-            allure 'Allure'
+            allure 'Allure 2.18.1'
     }
     stages {
         stage ('checkout repo') {
